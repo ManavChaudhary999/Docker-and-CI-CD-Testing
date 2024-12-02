@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Step 6: Set the environment variable for Prisma ORM
-# ENV DATABASE_URL="postgresql://<project_name>:<password>@ep-billowing-boat-a55dr7pi.us-east-2.aws.neon.tech/assignment?sslmode=require"
+# ENV DATABASE_URL="<remote_url>"
 
 # Step 7: Run Prisma generate to prepare Prisma Client
 RUN npx prisma generate

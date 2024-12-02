@@ -16,3 +16,6 @@ prisma/dev.db-journal
 tmp
 dist
 .DS_Store
+
+# Docker.optimized file
+Dockerfile.optimized

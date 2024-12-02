@@ -1,0 +1,46 @@
+# Optimized Multi-Stage Dockerfile
+# A multi-stage Dockerfile helps reduce the final image size by separating build dependencies
+# from the runtime environment.
+
+# Stage 1: Build
+FROM node:18-alpine AS builder
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy only package.json and package-lock.json to install dependencies
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy application code
+COPY . .
+
+# Generate Prisma Client
+RUN npx prisma generate
+
+# Build the app (optional if using a build step, e.g., with TypeScript)
+# RUN npm run build
+
+# Stage 2: Runtime
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy only the necessary files from the build stage
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/prisma ./prisma
+COPY --from=builder /usr/src/app/package.json ./package.json
+# Adjust if you're building a frontend or TypeScript app
+COPY --from=builder /usr/src/app/dist ./dist
+
+# Set environment variables
+ENV DATABASE_URL="postgresql://<project_name>:<password>@ep-billowing-boat-a55dr7pi.us-east-2.aws.neon.tech/assignment?sslmode=require"
+
+# Expose the application port
+EXPOSE 3000
+
+# Run the application
+CMD ["npm", "start"]
