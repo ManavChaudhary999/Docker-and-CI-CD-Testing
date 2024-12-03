@@ -18,4 +18,4 @@ dist
 .DS_Store
 
 # Docker.optimized file
-Dockerfile.optimized
+docker/Dockerfile.optimized
