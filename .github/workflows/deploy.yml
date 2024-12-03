@@ -52,4 +52,4 @@ jobs:
                 sudo docker pull ${{ secrets.DOCKER_USERNAME }}/express-test:test2
                 sudo docker stop express-test-app || true
                 sudo docker rm express-test-app || true
-                sudo docker run --name express-test-app -d -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/express-test:test2
+                sudo docker run --name express-test-app -d -p 3000:3000 -e DATABASE_URL="${{ secrets.DATABASE_URL }}" ${{ secrets.DOCKER_USERNAME }}/express-test:test2

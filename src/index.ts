@@ -8,7 +8,7 @@ const client = new PrismaClient();
 
 app.get("/", (req, res) => {
     res.json({
-        message: "Healthy server"
+        message: "CI/CD is working!"
     })
 })
 
